@@ -10,6 +10,9 @@
   "author": "Elizabeth Bruski, Nicholas Mohamed, and Olof Persson",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
     "mongodb": "^6.5.0"
   }
 }
