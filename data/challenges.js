@@ -48,4 +48,27 @@ const exports = {
 
     return challenge;
   },
+
+  async getAllChallenges() {
+    const challengeCollection = await challenges();
+    const challengeList = await challengeCollection.find({}).toArray();
+
+    if (!challengeList) {
+      throw "Error: no challenges found";
+    }
+
+    return challengeList;
+  },
+
+  async deleteChallenge(id) {
+    id = helpers.isValidObjectId(id);
+    const challengeCollection = await challenges();
+    const deleteInfo = await challengeCollection.deleteOne({ _id: id });
+
+    if (deleteInfo.deletedCount === 0) {
+      throw `Error: could not delete challenge with id ${id}`;
+    }
+  },
 };
+
+export default exports;
