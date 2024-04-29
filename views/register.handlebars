@@ -71,19 +71,18 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/register", // Change to your actual registration API
+                url: "/register",
                 data: formData,
                 success: function(response) {
-                    if(response.success) {
-                        alert('Registration successful!');
-                        window.location.href = '/login'; // Redirect to the login page on success
-                    } else {
-                        alert('Registration failed: ' + response.message); // Show error message
-                    }
-                },
-                error: function() {
-                    alert('Registration request failed. Please try again.'); // Handle errors
+                if (response.success) {
+                    window.location.href = '/login'; // Redirect on success
+                } else {
+                    alert('Registration failed: ' + response.message); // Display the error message from server
                 }
+            },
+            error: function(xhr, status, error) {
+                alert('Registration request failed: ' + xhr.responseText); // Improved error handling
+            }
             });
         });
     });

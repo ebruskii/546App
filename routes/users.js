@@ -51,9 +51,12 @@ router
       );
       res.redirect("/login"); // Redirect to login after successful registration
     } catch (error) {
-      res.status(400).render("register", {
-        error: "Failed to register user: " + error.message,
-      });
+      res
+        .status(400)
+        .json({
+          success: false,
+          message: "Failed to register user: " + error.message,
+        });
     }
   });
 
