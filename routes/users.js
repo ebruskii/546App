@@ -61,11 +61,9 @@ router
 router
   .route("/login")
   .get(redirectIfAuthenticated, async (req, res) => {
-    // Only show the login page if the user is not authenticated
     res.render("login");
   })
   .post(redirectIfAuthenticated, async (req, res) => {
-    // Process login attempt
     const { email, password } = req.body;
     const sanitizedEmail = xss(email);
     const sanitizedPassword = xss(password);
@@ -73,7 +71,7 @@ router
     try {
       const user = await userData.loginUser(sanitizedEmail, sanitizedPassword);
       if (user) {
-        req.session.userId = user.id; // Assuming the user object has an id
+        req.session.userId = user.id;
         res.status(200).json({ success: true, redirect: "/dashboard" });
       } else {
         res.status(401).render("login", { error: "Invalid email or password" });
