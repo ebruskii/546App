@@ -75,7 +75,7 @@
                 data: formData,
                 success: function(response) {
                 if (response.success) {
-                    window.location.href = '/login'; // Redirect on success
+                    window.location.href = "/login"; // Redirect on success
                 } else {
                     alert('Registration failed: ' + response.message); // Display the error message from server
                 }

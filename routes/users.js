@@ -49,14 +49,12 @@ router
         sanitizedAge,
         sanitizedGender
       );
-      res.redirect("/login"); // Redirect to login after successful registration
+      res.status(200).json({ success: true, redirect: "/login" });
     } catch (error) {
-      res
-        .status(400)
-        .json({
-          success: false,
-          message: "Failed to register user: " + error.message,
-        });
+      res.status(400).json({
+        success: false,
+        message: "Failed to register user: " + error.message,
+      });
     }
   });
 
@@ -76,11 +74,12 @@ router
       const user = await userData.loginUser(sanitizedEmail, sanitizedPassword);
       if (user) {
         req.session.userId = user.id; // Assuming the user object has an id
-        res.redirect("/dashboard"); // Redirect to dashboard after successful login
+        res.status(200).json({ success: true, redirect: "/dashboard" });
       } else {
         res.status(401).render("login", { error: "Invalid email or password" });
       }
     } catch (error) {
+      console.error("Login failed:", error.message);
       res
         .status(500)
         .render("login", { error: "Login failed: " + error.message });
