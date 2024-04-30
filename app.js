@@ -2,10 +2,11 @@ import express from "express";
 import session from "express-session";
 import exphbs from "express-handlebars";
 import configRoutes from "./routes/index.js";
-import { Cookie } from "express-session";
+import cookieParser from "cookie-parser";
 import helpers from "./helpers.js";
 
 const app = express();
+app.use(cookieParser());
 
 // Middleware to parse JSON and urlencoded data
 app.use(express.json());
@@ -14,20 +15,26 @@ app.use(express.urlencoded({ extended: true }));
 // Serving static files
 app.use(express.static("public"));
 
+// Set up session middleware
+app.use(session({
+    name: "AuthCookie",
+    secret: "cookieMonster",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
 // Set up Handlebars
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-// Set up session middleware
-app.use(
-  session({
-    secret: "some secret string!",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }, // Change to true if using HTTPS
-  })
-);
+
+
+app.use('/dashboard',(req, res, next) => {
+  console.log('User:', req.session.user);
+  next();
+});
 
 // Configure routes
 configRoutes(app);

@@ -44,7 +44,7 @@
                 data: formData,
                 success: function(response) {
                     if(response.success) {
-                        window.location.href = '/dashboard'; // Redirect to the dashboard on success
+                        window.location.href = response.redirect; // Redirect to the dashboard on success
                     } else {
                         alert('Login failed: ' + response.message); // Show error message
                     }

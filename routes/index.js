@@ -5,6 +5,7 @@ import workoutsRoutes from "./workouts.js";
 
 const constructorMethod = (app) => {
   app.use("/", usersRoutes);
+  app.use("/dashboard", challengesRoutes);
 
   app.use("*", (req, res) => {
     res.sendStatus(404);

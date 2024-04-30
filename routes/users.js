@@ -9,7 +9,7 @@ const router = express.Router();
 
 // Middleware to check if user is logged in
 const redirectIfAuthenticated = (req, res, next) => {
-  if (req.session.userId) {
+  if (req.session.user) {
     return res.redirect("/dashboard"); // Modify as needed
   }
   next();
@@ -39,7 +39,7 @@ router
     const sanitizedGender = xss(gender);
 
     try {
-      await userData.createUser(
+      const result = await userData.createUser(
         sanitizedEmail,
         sanitizedPassword,
         sanitizedFirstName,
@@ -49,7 +49,15 @@ router
         sanitizedAge,
         sanitizedGender
       );
-      res.status(200).json({ success: true, redirect: "/login" });
+      if (result.registered){
+        res.status(200).json({ success: true, redirect: "/login" });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Failed to register user",
+        });
+      }
+      
     } catch (error) {
       res.status(400).json({
         success: false,
@@ -71,7 +79,7 @@ router
     try {
       const user = await userData.loginUser(sanitizedEmail, sanitizedPassword);
       if (user) {
-        req.session.userId = user.id;
+        req.session.user = user;
         res.status(200).json({ success: true, redirect: "/dashboard" });
       } else {
         res.status(401).render("login", { error: "Invalid email or password" });

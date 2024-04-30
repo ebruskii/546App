@@ -56,7 +56,7 @@ const exports = {
       throw "Error getting newly created user";
     }
 
-    return newUser._id.toString(); // Convert ObjectId to string and return
+    return {registered: true};
   },
 
   async loginUser(email, password) {
