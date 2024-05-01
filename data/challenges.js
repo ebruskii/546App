@@ -2,22 +2,20 @@ import helpers from "../helpers.js";
 import { challenges } from "../config/mongoCollections.js";
 
 const exports = {
-  async createChallenge(title, description, goal, type, creator) {
+  async createChallenge(title, description, type, creator) {
     title = helpers.isValidString(title, "title");
     description = helpers.isValidString(description, "description");
-    startDate = helpers.getNextMonday();
-    startDate = helpers.generateDate(startDate);
-    endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000); // make it last for 1 week
-    goal = helpers.isValidInt(goal, "goal");
+    let startDate = helpers.generateDate();
+    let endDate = helpers.getNextWeek(); // make it last for 1 week
     type = helpers.isValidString(type, "type");
-    creator = helpers.isValidObjectId(creator);
+    creator = helpers.isValidString(creator);
 
     const challengeCollection = await challenges();
     const insertResult = await challengeCollection.insertOne({
       title,
       description,
-      startDate: endDate,
-      goal,
+      startDate,
+      endDate,
       type,
       creator,
       dateCreated: helpers.generateDate(),
@@ -34,7 +32,7 @@ const exports = {
       throw "Error getting newly created challenge";
     }
 
-    return newChallenge._id.toString();
+    return { created: true, challenge: newChallenge };
   },
 
   async getChallengeById(id) {

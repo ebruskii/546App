@@ -31,6 +31,7 @@ app.set("views", "./views");
 
 // Configure routes
 configRoutes(app);
+helpers.startUp();
 
 // Server listening
 app.listen(3000, () => {
