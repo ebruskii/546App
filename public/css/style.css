@@ -1,0 +1,100 @@
+/* Basic reset, body, and global styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Top navigation bar styling */
+.navbar {
+    width: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    z-index: 1000; /* ensures navbar is above other content */
+    top: 0; /* aligns navbar at the top */
+    left: 0;
+    right: 0;
+    height: 60px; /* adjust based on your nav bar height */
+}
+
+/* Styling for the sidebars */
+.sidebar, .right-sidebar {
+    position: fixed;
+    top: 60px; /* starts below the navbar */
+    bottom: 0;
+    width: 200px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding: 1rem;
+    overflow-y: auto; /* enables scrolling on small screens or large content */
+}
+
+.sidebar {
+    left: 0;
+}
+
+.right-sidebar {
+    right: 0;
+    border-left: 1px solid #eee;
+}
+
+/* Navigation links styling within sidebars */
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block; /* ensures links use full space for easier click */
+}
+
+.nav-link:hover {
+    color: #0056b3;
+}
+
+/* Main content area styling */
+.content {
+    margin-left: 200px; /* Space for left sidebar */
+    margin-right: 200px; /* Space for right sidebar */
+    margin-top: 60px; /* Space below the navbar */
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Story and challenge sections */
+.stories, .list-group {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.story, .list-group-item {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments for mobile and tablet views */
+@media (max-width: 768px) {
+    .sidebar, .right-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .content {
+        margin: 80px 0 0 0; /* adjusts top margin to avoid covering by nav bar */
+    }
+}

@@ -59,6 +59,7 @@ const exports = {
   // check valid state
   isValidState(state) {
     state = this.isValidString(state, "state");
+    state = state.toUpperCase();
 
     const validStates = [
       "AL",
@@ -142,7 +143,7 @@ const exports = {
     if (!/[0-9]/.test(password)) {
       throw `Error: password must contain at least one number`;
     }
-    if (!/[!@#$%^&*]/.test(password)) {
+    if (!/[!@#$%^&*.]/.test(password)) {
       throw `Error: password must contain at least one special character`;
     }
     return password;

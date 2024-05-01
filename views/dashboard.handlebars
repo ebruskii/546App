@@ -5,70 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <!-- Section for current challenges -->
+
+    <!-- left Sidebar -->
+    <div class="sidebar bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/dashboard">Feed</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Friends</a></li>
+            <!-- More sidebar items -->
+        </ul>
+    </div>
+
+    <!-- Right Sidebar for Friends List -->
+    <div class="right-sidebar">
+        <ul class="navbar-nav">
+            {{#each friends}}
+            <li class="nav-item">Friends</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    {{this.name}} <span class="status {{this.status}}"></span>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Workout logs displayed like stories -->
         <section class="mt-4">
-            <h2>Current Challenges</h2>
-            <div class="list-group">
-                {{#each challenges}}
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{this.title}}</h5>
-                            <small>{{this.duration}}</small>
-                        </div>
-                        <p class="mb-1">{{this.description}}</p>
-                        <small>Ends on {{this.endDate}}</small>
-                    </a>
+            <h2>User Workouts</h2>
+            <div class="stories">
+                {{#each workouts}}
+                <div class="story bg-light">
+                    <h6>{{this.user}}</h6>
+                    <p>{{this.type}} - {{this.duration}} mins</p>
+                </div>
                 {{/each}}
             </div>
         </section>
 
-        <!-- Workout Entry Form -->
+        <!-- Challenges displayed like posts -->
         <section class="mt-4">
-            <h2>Log a Workout</h2>
-            <form id="workoutForm">
-                <div class="form-group">
-                    <label for="workoutType">Type of Workout</label>
-                    <select class="form-control" id="workoutType" name="workoutType">
-                        <option>Cardio</option>
-                        <option>Strength</option>
-                        <option>Flexibility</option>
-                        <option>Balance</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="duration">Duration (in minutes)</label>
-                    <input type="number" class="form-control" id="duration" name="duration" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Workout</button>
-            </form>
+            <h2>Current Challenges</h2>
+            <div class="list-group">
+                {{#each challenges}}
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{this.title}}</h5>
+                        <small>{{this.duration}}</small>
+                    </div>
+                    <p class="mb-1">{{this.description}}</p>
+                    <small>Ends on {{this.endDate}}</small>
+                </a>
+                {{/each}}
+            </div>
         </section>
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.7.12/umd.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#workoutForm').submit(function(event) {
-                event.preventDefault();
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/dashboard",
-                    data: formData,
-                    success: function(response) {
-                        alert('Workout logged successfully!');
-                    },
-                    error: function() {
-                        alert('Error logging workout.');
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>

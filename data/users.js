@@ -27,6 +27,7 @@ const exports = {
     gender = helpers.isValidString(gender, "gender");
     // logStreak is set to 1 by default
     let logStreak = 1;
+    let friends = [];
 
     const hashedPassword = await bcrypt.hash(password, 4);
 
@@ -41,6 +42,7 @@ const exports = {
       age,
       gender,
       logStreak,
+      friends,
       dateCreated: helpers.generateDate(),
       lastLogin: helpers.generateDate(),
     });
@@ -91,6 +93,7 @@ const exports = {
       age: user.age,
       gender: user.gender,
       logStreak: user.logStreak,
+      friends: user.friends,
       dateCreated: user.dateCreated,
     };
   },
