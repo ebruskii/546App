@@ -29,13 +29,6 @@ app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-
-
-app.use('/dashboard',(req, res, next) => {
-  console.log('User:', req.session.user);
-  next();
-});
-
 // Configure routes
 configRoutes(app);
 

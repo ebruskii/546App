@@ -5,7 +5,6 @@ const router = express.Router();
 
 // Middleware to ensure that only authenticated users can access the routes
 const ensureAuthenticated = (req, res, next) => {
-    console.log('User:', req.session.user);
     if (!req.session.user) {
         // If the user is not logged in, redirect to login page
         return res.redirect('/login');
