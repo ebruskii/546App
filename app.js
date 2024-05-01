@@ -4,7 +4,7 @@ import exphbs from "express-handlebars";
 import configRoutes from "./routes/index.js";
 import cookieParser from "cookie-parser";
 import helpers from "./helpers.js";
-
+// lol master fuck idk shit
 const app = express();
 app.use(cookieParser());
 
