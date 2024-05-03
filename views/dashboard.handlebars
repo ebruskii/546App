@@ -20,36 +20,41 @@
     </div>
 
     <!-- Right Sidebar for Friends List -->
-    <div class="right-sidebar">
-        <ul class="navbar-nav">
-            {{#each friends}}
-            <li class="nav-item">Friends</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    {{this.name}} <span class="status {{this.status}}"></span>
-                </a>
-            </li>
-            {{/each}}
-        </ul>
-    </div>
+<div class="right-sidebar">
+    <h3 class="text-center">My Friends</h3>
+    <ul class="navbar-nav">
+        {{#each friends}}
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{this.firstName}} {{this.lastName}} 
+                <span class="status {{this.status}}"></span>
+                <!-- Display login streak next to the name -->
+                <small>(Streak: {{this.logStreak}})</small>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+
 
     <!-- Main Content Area -->
     <div class="content">
         <!-- Workout logs displayed like stories -->
         <section class="mt-4">
-            <h2>User Workouts</h2>
-            <div>
-                <button class="btn btn-primary" id="addWorkout">Add Workout</button>
+        <h2>Our FLEXER'S At Work</h2>
+        <div>
+            <button class="btn btn-primary" id="addWorkout">Add Workout</button>
+        </div>
+        <div class="stories">
+            {{#each workouts}}
+            <div class="story bg-light">
+                <h6>{{this.userName}}'s Workout</h6> <!-- Displaying the user's name -->
+                <p>{{this.type}} - {{this.duration}} mins</p>
+                <p class="text-muted"><small>Posted on: {{this.date}}</small></p> <!-- Displaying the date -->
             </div>
-            <div class="stories">
-                {{#each workouts}}
-                <div class="story bg-light">
-                    <h6>{{this.user}}</h6>
-                    <p>{{this.type}} - {{this.duration}} mins</p>
-                </div>
-                {{/each}}
-            </div>
-        </section>
+            {{/each}}
+        </div>
+    </section>
 
         <!-- Challenges displayed like posts -->
         <section class="mt-4">

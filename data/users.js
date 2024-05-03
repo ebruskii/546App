@@ -221,6 +221,31 @@ const exports = {
     const workoutList = user.workouts;
     return workoutList;
   },
+
+  async getAllUserWorkouts() {
+    const userCollection = await users();
+    const userList = await userCollection.find({}).toArray();
+    if (!userList) {
+      throw "Error: no users found";
+    }
+
+    // Creating an array that will hold all the workouts of all users
+    const allWorkouts = userList
+      .map((user) => {
+        // Optionally, you might want to include user information with each workout
+        return user.workouts.map((workout) => {
+          return {
+            userId: user._id,
+            userName: `${user.firstName} ${user.lastName}`,
+            ...workout,
+          };
+        });
+      })
+      .flat(); // Use flat to flatten the array of arrays into a single array
+
+    return allWorkouts;
+  },
+
   // async updateWorkout(title, amountOfWorkout, unitOfWorkout, duration, type, id) {
   //   id = helpers.isValidObjectId(id);
   //   title = helpers.isValidString(title, "title");
