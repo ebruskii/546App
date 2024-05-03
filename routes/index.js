@@ -6,7 +6,8 @@ import profileRoutes from "./profile.js";
 const constructorMethod = (app) => {
   app.use("/", usersRoutes);
   app.use("/dashboard", dashboardRoutes);
-
+  app.use("/profile", profileRoutes);
+  
   app.use("*", (req, res) => {
     res.sendStatus(404);
   });
