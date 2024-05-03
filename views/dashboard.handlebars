@@ -83,8 +83,9 @@
                             <label for="type">Workout Type</label>
                             <select class="form-group" name="workoutType" id="workoutType">
                                 {{#each workoutTypes}}
-                                <option value="Running">Running</option>
+                                <option value="{{this.type}}">{{this.type}}</option>
                                 {{/each}}
+                                
                             </select>
                         </div>
                         <div class="form-group">

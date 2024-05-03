@@ -1,6 +1,14 @@
+//import { closeConnection, dbConnection } from '../config/mongoConnection.js';
 import workoutFuncs from "../data/workouts.js";
 import challengesData from "../data/challenges.js";
 import userData from "../data/users.js";
+
+// try{
+//     const db = await dbConnection();
+//     await db.dropDatabase();
+// }catch(e){
+//     console.log(e);
+// }
 
 const mockChallenges = [
   {
@@ -65,23 +73,23 @@ const mockWorkouts = [
     amountOfWorkout: 5,
     unitOfWorkout: "kilometers",
     duration: 30,
-    type: "Cardio",
+    type: "Running",
     creator: "alice@example.com",
   },
   {
     title: "Evening Yoga",
-    amountOfWorkout: 1,
-    unitOfWorkout: "hour",
+    amountOfWorkout: 150,
+    unitOfWorkout: "calories",
     duration: 60,
-    type: "Flexibility",
+    type: "Yoga",
     creator: "bob@example.com",
   },
   {
     title: "Gym Session",
-    amountOfWorkout: 2,
-    unitOfWorkout: "hours",
+    amountOfWorkout: 500,
+    unitOfWorkout: "calories",
     duration: 120,
-    type: "Strength",
+    type: "Gym",
     creator: "carol@example.com",
   },
 ];
@@ -141,6 +149,12 @@ async function seedDatabase() {
       await userData.addFriend(mockUsers[1].email, mockUsers[2].email);
       await userData.addFriend(mockUsers[0].email, mockUsers[2].email);
 
+      await workoutFuncs.createWorkoutType("Running", ["kilometers", "meters"]);
+      await workoutFuncs.createWorkoutType("Biking", ["kilometers", "meters"]);
+      await workoutFuncs.createWorkoutType("Swimming", ["meters"]);
+      await workoutFuncs.createWorkoutType("Tennis", ["calories"]);
+      await workoutFuncs.createWorkoutType("Yoga", ["calories"]);
+      await workoutFuncs.createWorkoutType("Gym", ["calories"]);
       console.log("All users have been added and friendships established.");
     }
   } catch (error) {
@@ -149,3 +163,9 @@ async function seedDatabase() {
 }
 
 seedDatabase();
+
+// try
+// {await closeConnection();}
+// catch(e){
+//   console.log(e)
+// }

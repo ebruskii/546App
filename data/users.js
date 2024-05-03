@@ -72,6 +72,18 @@ const exports = {
     searched._id = searched._id.toString();
     return searched;
   },
+  //get user by email
+  async getUserByEmail(email) {
+    email = helpers.isValidEmail(email);
+    const userCollection = await users();
+    const user = await userCollection.findOne({
+      email: email,
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  },
   async loginUser(email, password) {
     if (!helpers.isValidEmail(email) || !helpers.isValidPassword(password)) {
       throw new Error("Either the email or password format is invalid");

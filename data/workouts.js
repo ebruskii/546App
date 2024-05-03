@@ -17,7 +17,7 @@ const exports = {
     if (insertInfo.insertedCount === 0) {
       throw "Error: could not add workout type";
     }
-    return await this.getWorkoutsByType(type);
+    return type;
 
   },
   async getWorkoutById(id) {
@@ -31,10 +31,18 @@ const exports = {
 
     return workout;
   },
-  async getWorkoutsByType(type) {
-    type = helpers.isValidString(type, "type");
+  // async getWorkoutsByType(type) {
+  //   type = helpers.isValidString(type, "type");
+  //   const workoutCollection = await workouts();
+  //   const workoutList = await workoutCollection.find({ type }).toArray();
+  //   if (!workoutList) {
+  //     throw "Error: no workouts found";
+  //   }
+  //   return workoutList;
+  // },
+  async getAllWorkoutTypes(){
     const workoutCollection = await workouts();
-    const workoutList = await workoutCollection.find({ type }).toArray();
+    const workoutList = await workoutCollection.find({}).toArray();
     if (!workoutList) {
       throw "Error: no workouts found";
     }
