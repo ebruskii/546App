@@ -103,3 +103,7 @@ body, html {
     flex-grow: 1;  /* Takes up all available space, pushing suggested friends down */
     min-height: 50px;  /* Ensures there's always some space */
 }
+
+.container.mt-4 {
+    margin-top: 5rem !important; /* This increases the top margin of the container */
+}

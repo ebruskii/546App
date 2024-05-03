@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1>User Profile</h1>
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">{{firstName}} {{lastName}}</h2>
@@ -18,8 +17,8 @@
                     <li class="list-group-item">Age: {{age}}</li>
                     <li class="list-group-item">Gender: {{gender}}</li>
                     <li class="list-group-item">Login Streak: {{logStreak}} days</li>
-                    <li class="list-group-item">Member since: {{dateFormat dateCreated}}</li>
-                    <li class="list-group-item">Last Login: {{dateFormat lastLogin}}</li>
+                    <li class="list-group-item">Member since: {{ dateCreated}}</li>
+                    <li class="list-group-item">Last Login: {{ lastLogin}}</li>
                 </ul>
             </div>
         </div>
@@ -43,7 +42,7 @@
                     <small>{{this.duration}} mins</small>
                 </div>
                 <p class="mb-1">{{this.description}}</p>
-                <small>Workout on: {{dateFormat this.date}}</small>
+                <small>Workout on: {{ this.date}}</small>
             </a>
             {{/each}}
         </div>

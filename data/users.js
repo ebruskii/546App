@@ -85,6 +85,7 @@ const exports = {
     }
     return user;
   },
+
   async loginUser(email, password) {
     if (!helpers.isValidEmail(email) || !helpers.isValidPassword(password)) {
       throw new Error("Either the email or password format is invalid");
@@ -185,6 +186,7 @@ const exports = {
     duration = helpers.isValidInt(duration, "duration");
     type = helpers.isValidString(type, "type");
     creatorEmail = helpers.isValidEmail(creatorEmail); // Assuming you have a function to validate email format
+    const WorkoutUser = await this.getUserByEmail(creatorEmail);
 
     const date = helpers.generateDate();
     const workoutObject = {
@@ -194,6 +196,8 @@ const exports = {
       duration,
       type,
       date,
+      creatorEmail,
+      userID: WorkoutUser._id.toString(),
     };
 
     // Retrieve user collection and user by email
