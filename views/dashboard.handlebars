@@ -34,6 +34,22 @@
         </li>
         {{/each}}
     </ul>
+     <!-- Use spacer to push Suggested Friends towards the middle or bottom -->
+    <div class="spacer flex-grow-1"></div>
+
+    <div class="suggested-friends-container">
+        <h4 class="text-center">Suggested Friends</h4>
+        <ul class="navbar-nav">
+            {{#each suggestedFriends}}
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    {{this.firstName}} {{this.lastName}}
+                    <button class="btn btn-sm btn-primary ml-2">Add Friend</button>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
 </div>
 
 
@@ -41,17 +57,21 @@
     <div class="content">
         <!-- Workout logs displayed like stories -->
         <section class="mt-4">
-        <h2>Our FLEXER'S At Work</h2>
-        <div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Our FLEXER'S At Work</h2>
             <button class="btn btn-primary" id="addWorkout">Add Workout</button>
         </div>
-        <div class="stories">
+        <div class="list-group">
             {{#each workouts}}
-            <div class="story bg-light">
-                <h6>{{this.userName}}'s Workout</h6> <!-- Displaying the user's name -->
-                <p>{{this.type}} - {{this.duration}} mins</p>
-                <p class="text-muted"><small>Posted on: {{this.date}}</small></p> <!-- Displaying the date -->
-            </div>
+            <a href="/user" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <h6>{{this.userName}}'s Workout</h6>
+                        <p>{{this.type}} - {{this.duration}} mins</p>
+                    </div>
+                    <small>Posted on: {{ this.date}}</small> <!-- Ensure you have a dateFormat helper -->
+                </div>
+            </a>
             {{/each}}
         </div>
     </section>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>User Profile</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">{{firstName}} {{lastName}}</h2>
+                <h5 class="card-subtitle mb-2 text-muted">{{city}}, {{state}}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Age: {{age}}</li>
+                    <li class="list-group-item">Gender: {{gender}}</li>
+                    <li class="list-group-item">Login Streak: {{logStreak}} days</li>
+                    <li class="list-group-item">Member since: {{dateFormat dateCreated}}</li>
+                    <li class="list-group-item">Last Login: {{dateFormat lastLogin}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Friends</h3>
+        <ul class="list-group mb-4">
+            {{#each friends}}
+            <li class="list-group-item">{{this.firstName}} {{this.lastName}}</li>
+            {{else}}
+            <li class="list-group-item">No friends to show</li>
+            {{/each}}
+        </ul>
+
+        <h3>Workout History</h3>
+        {{#if workouts.length}}
+        <div class="list-group">
+            {{#each workouts}}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{this.type}}</h5>
+                    <small>{{this.duration}} mins</small>
+                </div>
+                <p class="mb-1">{{this.description}}</p>
+                <small>Workout on: {{dateFormat this.date}}</small>
+            </a>
+            {{/each}}
+        </div>
+        {{else}}
+        <div class="alert alert-info">No workouts recorded.</div>
+        {{/if}}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.7.12/umd.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
