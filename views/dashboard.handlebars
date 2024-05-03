@@ -6,6 +6,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/dashboard.js" defer></script>
 </head>
 <body>
 
@@ -67,7 +68,7 @@
             </div>
         </section>
     </div>
-    <div class="modal" id="addWorkoutModal">
+    <div class="modal" style="display: none" id="addWorkoutModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -80,7 +81,11 @@
                     <form id="addWorkoutForm">
                         <div class="form-group">
                             <label for="type">Workout Type</label>
-                            <input type="text" class="form-control" id="type" name="type">
+                            <select class="form-group" name="workoutType" id="workoutType">
+                                {{#each workoutTypes}}
+                                <option value="Running">Running</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <div class="form-group">
                         <label for="duration">Duration</label>
