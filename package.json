@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
+    "start": "node ./tasks/seed.js && node app.js",
     "seed": "node ./tasks/seed.js"
   },
   "author": "Elizabeth Bruski, Nicholas Mohamed, and Olof Persson",

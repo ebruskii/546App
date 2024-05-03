@@ -58,7 +58,7 @@ const exports = {
       throw "Error getting newly created user";
     }
 
-    return {registered: true};
+    return { registered: true };
   },
 
   async loginUser(email, password) {
@@ -96,6 +96,54 @@ const exports = {
       friends: user.friends,
       dateCreated: user.dateCreated,
     };
+  },
+
+  async addFriend(userEmail, friendEmail) {
+    userEmail = helpers.isValidEmail(userEmail);
+    friendEmail = helpers.isValidEmail(friendEmail);
+
+    let userCollection = await users();
+
+    // Find the user by email
+    let user = await userCollection.findOne({
+      email: new RegExp(`^${userEmail}$`, "i"),
+    });
+
+    // Check if the user was found
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    let friend = await userCollection.findOne({
+      email: new RegExp(`^${friendEmail}$`, "i"),
+    });
+
+    if (!friend) {
+      throw new Error("Friend not found");
+    }
+
+    if (user.friends.includes(friendEmail)) {
+      throw new Error("Friend already added");
+    }
+
+    user.friends.push(friendEmail);
+    await userCollection.updateOne(
+      { email: userEmail },
+      { $set: { friends: user.friends } }
+    );
+
+    return { success: true };
+  },
+
+  async getAllUsers() {
+    const userCollection = await users();
+    const userList = await userCollection.find({}).toArray();
+
+    if (!userList) {
+      throw "Error: no users found";
+    }
+
+    return userList;
   },
 };
 

@@ -173,38 +173,6 @@ const exports = {
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
   },
-
-
-  async startUp() {
-    try {
-      // Assuming getChallenges is a method that returns all existing challenges
-      const existingChallenges = await challengesData.getAllChallenges();
-
-      if (existingChallenges.length === 0) {
-          // List of mock challenges to add
-          const mockChallenges = [
-              { title: "Run 5K", description: "Complete a 5K run", goal: "5000 meters", type: "Running", creator: "Admin" },
-              { title: "Bike 10 Miles", description: "Go on a 10-mile bike ride", goal: "10 miles", type: "Biking", creator: "Admin" },
-              { title: "Swim 1 Mile", description: "Swim a total of one mile", goal: "1 mile", type: "Swimming", creator: "Admin" }
-          ];
-
-          // Iterate over the mock challenges and create each one
-          for (const challenge of mockChallenges) {
-              await challengesData.createChallenge(challenge.title, challenge.description, challenge.goal, challenge.type, challenge.creator);
-              console.log(`Challenge created: ${challenge.title}`);
-          }
-          console.log('All mock challenges have been added.');
-      } else {
-          console.log('Challenges already exist. No mock data added.');
-      }
-  } catch (error) {
-      console.error('Failed to initialize mock challenges:', error);
-  }
-
-  },
-
-
-
 };
 
 export default exports;

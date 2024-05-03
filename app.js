@@ -16,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Set up session middleware
-app.use(session({
+app.use(
+  session({
     name: "AuthCookie",
     secret: "cookieMonster",
     resave: false,
@@ -31,7 +32,6 @@ app.set("views", "./views");
 
 // Configure routes
 configRoutes(app);
-helpers.startUp();
 
 // Server listening
 app.listen(3000, () => {
