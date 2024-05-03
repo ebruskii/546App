@@ -5,8 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node ./tasks/seed.js && node app.js",
-    "seed": "node ./tasks/seed.js"
+    "start": "node app.js",
+    "seed": "node ./tasks/seed.js",
+    "dev": "node ./tasks/seed.js && node app.js"
   },
   "author": "Elizabeth Bruski, Nicholas Mohamed, and Olof Persson",
   "license": "ISC",

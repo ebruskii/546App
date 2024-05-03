@@ -163,36 +163,47 @@ const exports = {
     unitOfWorkout,
     duration,
     type,
-    creator
+    creatorEmail
   ) {
+    // Validate input data
     title = helpers.isValidString(title, "title");
-    amountOfWorkout = helpers.isValidString(amountOfWorkout, "description");
+    amountOfWorkout = helpers.isValidInt(amountOfWorkout, "amountOfWorkout");
     unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
     duration = helpers.isValidInt(duration, "duration");
     type = helpers.isValidString(type, "type");
-    creator = helpers.isValidId(creator);
-    date = helpers.generateDate();
-    const workoutObject = {
-      title: title,
-      amountOfWorkout: amountOfWorkout,
-      duration: duration,
-      type: type,
-      creator: creator,
-      date: date,
-    };
-    const users = await users();
-    const getUser = await getUsersById(creator);
+    creatorEmail = helpers.isValidEmail(creatorEmail); // Assuming you have a function to validate email format
 
-    getUser.workouts.push(workoutObject);
-    const updateInfo = await users.updateOne(
-      { _id: new ObjectId(creator) },
-      { $set: getUser }
-    );
-    if (updateInfo.modifiedCount === 0) {
-      throw "Could not add workout";
+    const date = helpers.generateDate();
+    const workoutObject = {
+      title,
+      amountOfWorkout,
+      unitOfWorkout,
+      duration,
+      type,
+      date,
+    };
+
+    // Retrieve user collection and user by email
+    const userCollection = await users();
+    const user = await userCollection.findOne({ email: creatorEmail });
+
+    if (!user) {
+      throw new Error("User not found with the given email");
     }
-    return;
+
+    // Update user document with new workout
+    const updateInfo = await userCollection.updateOne(
+      { _id: user._id },
+      { $push: { workouts: workoutObject } }
+    );
+
+    if (updateInfo.modifiedCount === 0) {
+      throw new Error("Could not add workout");
+    }
+
+    return workoutObject; // Optionally return the newly created workout object
   },
+
   async getAllWorkouts(id) {
     const user = await this.getUserById(id);
     const workoutList = user.workouts;
