@@ -126,7 +126,7 @@ async function seedDatabase() {
       }
 
       for (const workout of mockWorkouts) {
-        const workoutResult = await workoutFuncs.createWorkout(
+        const workoutResult = await userData.createWorkout(
           workout.title,
           workout.amountOfWorkout,
           workout.unitOfWorkout,
