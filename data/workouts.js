@@ -4,37 +4,22 @@ import helpers from "../helpers.js";
 import { workouts } from "../config/mongoCollections.js";
 
 const exports = {
-  async createWorkout(title, description, duration, type, creator) {
-    title = helpers.isValidString(title, "title");
-    description = helpers.isValidString(description, "description");
-    duration = helpers.isValidInt(duration, "duration");
+  async createWorkoutType(type, unitOfWorkout){
     type = helpers.isValidString(type, "type");
-    creator = helpers.isValidObjectId(creator);
-
+    for(let i = 0; i < unitOfWorkout.length; i++){
+      unitOfWorkout[i] = helpers.isValidString(unitOfWorkout[i], "unitOfWorkout");
+    }
     const workoutCollection = await workouts();
-    const insertResult = await workoutCollection.insertOne({
-      title,
-      description,
-      duration,
+    const insertInfo = await workoutCollection.insertOne({
       type,
-      creator,
-      dateCreated: helpers.generateDate(),
+      unitOfWorkout,
     });
-
-    if (!insertResult.acknowledged || !insertResult.insertedId) {
-      throw "Failed to insert workout";
+    if (insertInfo.insertedCount === 0) {
+      throw "Error: could not add workout type";
     }
+    return await this.getWorkoutsByType(type);
 
-    const newWorkout = await workoutCollection.findOne({
-      _id: insertResult.insertedId,
-    });
-    if (!newWorkout) {
-      throw "Error getting newly created workout";
-    }
-
-    return newWorkout._id.toString();
   },
-
   async getWorkoutById(id) {
     id = helpers.isValidObjectId(id);
     const workoutCollection = await workouts();
@@ -46,18 +31,6 @@ const exports = {
 
     return workout;
   },
-
-  async getAllWorkouts() {
-    const workoutCollection = await workouts();
-    const workoutList = await workoutCollection.find({}).toArray();
-
-    if (!workoutList) {
-      throw "Error: no workouts found";
-    }
-
-    return workoutList;
-  },
-
   async getWorkoutsByType(type) {
     type = helpers.isValidString(type, "type");
     const workoutCollection = await workouts();
@@ -66,33 +39,6 @@ const exports = {
       throw "Error: no workouts found";
     }
     return workoutList;
-  },
-
-  async updateWorkout(id, title, description, duration, type) {
-    id = helpers.isValidObjectId(id);
-    title = helpers.isValidString(title, "title");
-    description = helpers.isValidString(description, "description");
-    duration = helpers.isValidInt(duration, "duration");
-    type = helpers.isValidString(type, "type");
-
-    const workoutCollection = await workouts();
-    const updateInfo = await workoutCollection.updateOne(
-      { _id: id },
-      {
-        $set: {
-          title,
-          description,
-          duration,
-          type,
-        },
-      }
-    );
-
-    if (updateInfo.modifiedCount === 0) {
-      throw "Error: could not update workout";
-    }
-
-    return await this.getWorkoutById(id);
   },
 };
 
