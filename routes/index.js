@@ -7,11 +7,6 @@ const constructorMethod = (app) => {
   app.use("/", usersRoutes);
   app.use("/dashboard", dashboardRoutes);
   app.use("/profile", profileRoutes);
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 554d496028f4baf54998f1e023980b6d297e224d
   app.use("*", (req, res) => {
     res.sendStatus(404);
   });
