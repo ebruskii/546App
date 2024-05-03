@@ -2,12 +2,13 @@ import helpers from "../helpers.js";
 import { challenges } from "../config/mongoCollections.js";
 
 const exports = {
-  async createChallenge(title, description, type, creator) {
+  async createChallenge(title, description, type, unitOfWorkout, creator) {
     title = helpers.isValidString(title, "title");
     description = helpers.isValidString(description, "description");
     let startDate = helpers.generateDate();
     let endDate = helpers.getNextWeek(); // make it last for 1 week
     type = helpers.isValidString(type, "type");
+    unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitofWorkout");
     creator = helpers.isValidString(creator);
 
     const challengeCollection = await challenges();
@@ -17,6 +18,7 @@ const exports = {
       startDate,
       endDate,
       type,
+      unitOfWorkout,
       creator,
       dateCreated: helpers.generateDate(),
     });

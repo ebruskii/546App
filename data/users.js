@@ -1,7 +1,7 @@
 import helpers from "../helpers.js";
-import { users } from "../config/mongoCollections.js";
+import { users, workouts } from "../config/mongoCollections.js";
 import bcrypt from "bcrypt";
-
+import { ObjectId } from "mongodb";
 const exports = {
   // create user
   async createUser(
@@ -43,6 +43,7 @@ const exports = {
       gender,
       logStreak,
       friends,
+      workouts: [],
       dateCreated: helpers.generateDate(),
       lastLogin: helpers.generateDate(),
     });
@@ -61,6 +62,16 @@ const exports = {
     return { registered: true };
   },
 
+  async getUserById(userId) {
+    const userCollection = await users();
+    // if(!ObjectId.isValid(userId)) throw `Does not exist`
+    const searched = await userCollection.findOne({
+      _id: new ObjectId(userId),
+    });
+    if (!searched) throw `No user with id ${userId} found.`;
+    searched._id = searched._id.toString();
+    return searched;
+  },
   async loginUser(email, password) {
     if (!helpers.isValidEmail(email) || !helpers.isValidPassword(password)) {
       throw new Error("Either the email or password format is invalid");
@@ -93,6 +104,7 @@ const exports = {
       age: user.age,
       gender: user.gender,
       logStreak: user.logStreak,
+      workouts: user.workouts,
       friends: user.friends,
       dateCreated: user.dateCreated,
     };
@@ -145,6 +157,75 @@ const exports = {
 
     return userList;
   },
+  async createWorkout(
+    title,
+    amountOfWorkout,
+    unitOfWorkout,
+    duration,
+    type,
+    creator
+  ) {
+    title = helpers.isValidString(title, "title");
+    amountOfWorkout = helpers.isValidString(amountOfWorkout, "description");
+    unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
+    duration = helpers.isValidInt(duration, "duration");
+    type = helpers.isValidString(type, "type");
+    creator = helpers.isValidId(creator);
+    date = helpers.generateDate();
+    const workoutObject = {
+      title: title,
+      amountOfWorkout: amountOfWorkout,
+      duration: duration,
+      type: type,
+      creator: creator,
+      date: date,
+    };
+    const users = await users();
+    const getUser = await getUsersById(creator);
+
+    getUser.workouts.push(workoutObject);
+    const updateInfo = await users.updateOne(
+      { _id: new ObjectId(creator) },
+      { $set: getUser }
+    );
+    if (updateInfo.modifiedCount === 0) {
+      throw "Could not add workout";
+    }
+    return;
+  },
+  async getAllWorkouts(id) {
+    const user = await this.getUserById(id);
+    const workoutList = user.workouts;
+    return workoutList;
+  },
+  // async updateWorkout(title, amountOfWorkout, unitOfWorkout, duration, type, id) {
+  //   id = helpers.isValidObjectId(id);
+  //   title = helpers.isValidString(title, "title");
+  //   amountOfWorkout = helpers.isValidString(amountOfWorkout, "description");
+  //   unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
+  //   duration = helpers.isValidInt(duration, "duration");
+  //   type = helpers.isValidString(type, "type");
+
+  //   const workoutCollection = await workouts();
+  //   const updateInfo = await workoutCollection.updateOne(
+  //     { _id: id },
+  //     {
+  //       $set: {
+  //         title,
+  //         amountOfWorkout,
+  //         unitOfWorkout,
+  //         duration,
+  //         type,
+  //       },
+  //     }
+  //   );
+
+  //   if (updateInfo.modifiedCount === 0) {
+  //     throw "Error: could not update workout";
+  //   }
+
+  //   return await this.getWorkoutById(id);
+  // },
 };
 
 export default exports;
