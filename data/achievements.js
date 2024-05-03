@@ -1,7 +1,7 @@
 // achievments that we will set outselves
 
-import helpers from "./helpers.js";
-import { achievements } from "./mongoCollections.js";
+import helpers from "../helpers.js";
+import { achievements } from "../config/mongoCollections.js";
 
 const exports = {
   async createAchievement(title, description, goal, type, unitOfWorkout, creator) {
