@@ -24,19 +24,20 @@
 
         <h3 class="mt-4">Top 10 Leaderboard</h3>
         <ul class="list-group mb-4">
-            {{#each value}}
-            <li class="list-group-item">{{this}}</li>
+            {{#each leaderboard}}
+            <li class="list-group-item"><a href="/profile/{{this.id}}" class="list-group-item-action" > {{this.name}}: {{this.value}} {{challenge.unitOfWorkout}}</a></li>
             {{/each}}
         </ul>
 
         <h3 class="mt-4">Your Current Progress</h3>
-        <div class="progress">
+        <ul class="list-group mb-4">
             {{#if burn}}
-            You have burned {{currentUserLeaderboard}} calories.
+            <li class="list-group-item" >You have burned {{currentUserLeaderboard}} calories.</li>
             {{else}}
-            You have completed {{currentUserLeaderboard}} {{challenge.unitOfWorkout}}.
+             <li class="list-group-item" >You have completed {{currentUserLeaderboard}} {{challenge.unitOfWorkout}}.</li>
             {{/if}}
-        </div>
+        </ul>
+        
         {{!-- {{#if workouts.length}}
         <div class="list-group">
             {{#each workouts}}
@@ -54,7 +55,7 @@
         <div class="alert alert-info">No workouts recorded.</div>
         {{/if}} --}}
 
-        <button class="btn btn-primary mb-4" id="makeFriendButton">Make a Friend</button>
+        {{!-- <button class="btn btn-primary mb-4" id="makeFriendButton">Make a Friend</button> --}}
     </div>
     <div id="who" style="display:none">{{who}}</div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
