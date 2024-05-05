@@ -16,6 +16,7 @@ const ensureAuthenticated = (req, res, next) => {
 router.get("/", ensureAuthenticated, async (req, res) => {
   try {
     const user = req.session.user; // Getting user info for display
+    console.log("Rendered Profile Page")
     res.render("profile", { user }); // Render the profile page using the user info
   } catch (error) {
     console.error("Failed to render the profile page: ", error);
@@ -44,7 +45,7 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
     );
     // Await all promises to resolve for friends' details
     const friendsDetails = await Promise.all(friendsPromises);
-
+    console.log("Rendered Users Page")
     res.render("user", {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -58,6 +59,7 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
       workouts: user.workouts,
       dateCreated: user.dateCreated,
       lastLogin: user.lastLogin,
+      who: userID
     });
   } catch (error) {
     console.error("Failed to render the profile page: ", error);

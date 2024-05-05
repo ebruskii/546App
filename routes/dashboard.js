@@ -36,9 +36,10 @@ router.get("/", ensureAuthenticated, async (req, res) => {
     });
   } catch (error) {
     console.error("Failed to fetch challenges:", error);
-    res.status(500).render("error", {
-      message: "Error retrieving challenges from the database.",
-    });
+    res.status(500);
+    // res.status(500).render("error", {
+    //   message: "Error retrieving challenges from the database.",
+    // });
   }
 });
 
