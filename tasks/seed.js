@@ -14,21 +14,24 @@ const mockChallenges = [
   {
     title: "Run 5K",
     description: "Complete a 5K run",
-    goal: "5000 meters",
+    goal: "5000",
+    unit: "meters",
     type: "Running",
     creator: "Admin",
   },
   {
-    title: "Bike 10 Miles",
-    description: "Go on a 10-mile bike ride",
-    goal: "10 miles",
+    title: "Bike 10 Kilometers",
+    description: "Go on a 10K bike ride",
+    goal: "10",
+    unit: "kilometers",
     type: "Biking",
     creator: "Admin",
   },
   {
-    title: "Swim 1 Mile",
-    description: "Swim a total of one mile",
-    goal: "1 mile",
+    title: "Swim 1 KiloMeter",
+    description: "Swim a total of one kilometer",
+    goal: "1",
+    unit: "kilometers",
     type: "Swimming",
     creator: "Admin",
   },
@@ -156,8 +159,9 @@ async function seedDatabase() {
         await challengesData.createChallenge(
           challenge.title,
           challenge.description,
-          challenge.goal,
           challenge.type,
+          challenge.unit,
+          challenge.goal,
           challenge.creator
         );
         console.log(`Challenge created: ${challenge.title}`);

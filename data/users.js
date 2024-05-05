@@ -157,6 +157,11 @@ const exports = {
       { email: userEmail },
       { $set: { friends: user.friends } }
     );
+    friend.friends.push(userEmail);
+    await userCollection.updateOne(
+      { email: friendEmail },
+      { $set: { friends: friend.friends } }
+    );
 
     return { success: true };
   },
