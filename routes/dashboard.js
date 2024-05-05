@@ -42,4 +42,25 @@ router.get("/", ensureAuthenticated, async (req, res) => {
   }
 });
 
+router.post("/workouts", ensureAuthenticated, async (req, res) => {
+  try {
+    const { title, amountOfWorkout, unitOfWorkout, duration, type } = req.body;
+    const creatorEmail = req.session.user.email;
+    const newWorkout = await usersData.createWorkout(
+      title,
+      amountOfWorkout,
+      unitOfWorkout,
+      duration,
+      type,
+      creatorEmail
+    );
+    res.status(200).redirect("/");
+  } catch (error) {
+    console.error("Failed to create workout:", error);
+    res.status(500).render("error", {
+      message: "Error creating workout.",
+    });
+  }
+});
+
 export default router;
