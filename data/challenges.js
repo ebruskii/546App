@@ -1,5 +1,6 @@
 import helpers from "../helpers.js";
 import { challenges } from "../config/mongoCollections.js";
+import { ObjectId } from "mongodb";
 
 const exports = {
   async createChallenge(title, description, type, unitOfWorkout, amountOfWorkout, creator) {
@@ -40,9 +41,9 @@ const exports = {
   },
 
   async getChallengeById(id) {
-    id = helpers.isValidObjectId(id);
+    id = helpers.isValidId(id);
     const challengeCollection = await challenges();
-    const challenge = await challengeCollection.findOne({ _id: id });
+    const challenge = await challengeCollection.findOne({ _id: new ObjectId(id) });
 
     if (!challenge) {
       throw "Error: challenge not found";

@@ -11,29 +11,33 @@
     <div class="container mt-4">
         <div class="card">
             <div class="card-body">
-                <h2 class="card-title">{{firstName}} {{lastName}}</h2>
-                <h5 class="card-subtitle mb-2 text-muted">{{city}}, {{state}}</h5>
+                <h2 class="card-title">{{challenge.title}}</h2>
+                <h5 class="card-subtitle mb-2 text-muted">{{challenge.description}}</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Age: {{age}}</li>
-                    <li class="list-group-item">Gender: {{gender}}</li>
-                    <li class="list-group-item">Login Streak: {{logStreak}} days</li>
-                    <li class="list-group-item">Member since: {{ dateCreated}}</li>
-                    <li class="list-group-item">Last Login: {{ lastLogin}}</li>
+                    <li class="list-group-item">Type of Workout: {{challenge.type}}</li>
+                    <li class="list-group-item">Challenge: {{challenge.amountOfWorkout}} {{challenge.unitOfWorkout}}</li>
+                    <li class="list-group-item">Start Date: {{challenge.startDate}}</li>
+                    <li class="list-group-item">End Date: {{ challenge.endDate}}</li>
                 </ul>
             </div>
         </div>
 
         <h3 class="mt-4">Top 10 Leaderboard</h3>
         <ul class="list-group mb-4">
-            {{#each leaderboard}}
-            <li class="list-group-item">{{this.firstName}} {{this.lastName}}</li>
-            {{else}}
-            <li class="list-group-item">No friends to show</li>
+            {{#each value}}
+            <li class="list-group-item">{{this}}</li>
             {{/each}}
         </ul>
 
-        <h3>Workout History</h3>
-        {{#if workouts.length}}
+        <h3 class="mt-4">Your Current Progress</h3>
+        <div class="progress">
+            {{#if burn}}
+            You have burned {{currentUserLeaderboard}} calories.
+            {{else}}
+            You have completed {{currentUserLeaderboard}} {{challenge.unitOfWorkout}}.
+            {{/if}}
+        </div>
+        {{!-- {{#if workouts.length}}
         <div class="list-group">
             {{#each workouts}}
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -48,7 +52,7 @@
         </div>
         {{else}}
         <div class="alert alert-info">No workouts recorded.</div>
-        {{/if}}
+        {{/if}} --}}
 
         <button class="btn btn-primary mb-4" id="makeFriendButton">Make a Friend</button>
     </div>
