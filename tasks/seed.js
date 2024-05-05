@@ -65,6 +65,36 @@ const mockUsers = [
     age: 28,
     gender: "Female",
   },
+  {
+    email: "dave@example.com",
+    password: "Password123!",
+    firstName: "Dave",
+    lastName: "Brown",
+    city: "Miami",
+    state: "FL",
+    age: 32,
+    gender: "Male",
+  },
+  {
+    email: "emma@example.com",
+    password: "Password123!",
+    firstName: "Emma",
+    lastName: "Davis",
+    city: "Seattle",
+    state: "WA",
+    age: 29,
+    gender: "Female",
+  },
+  {
+    email: "frank@example.com",
+    password: "Password123!",
+    firstName: "Frank",
+    lastName: "Wilson",
+    city: "Austin",
+    state: "TX",
+    age: 27,
+    gender: "Male",
+  },
 ];
 
 const mockWorkouts = [
@@ -91,6 +121,30 @@ const mockWorkouts = [
     duration: 120,
     type: "Gym",
     creator: "carol@example.com",
+  },
+  {
+    title: "Afternoon Biking",
+    amountOfWorkout: 20,
+    unitOfWorkout: "kilometers",
+    duration: 90,
+    type: "Biking",
+    creator: "dave@example.com",
+  },
+  {
+    title: "Lunchtime Tennis",
+    amountOfWorkout: 300,
+    unitOfWorkout: "calories",
+    duration: 45,
+    type: "Tennis",
+    creator: "emma@example.com",
+  },
+  {
+    title: "Morning Swimming",
+    amountOfWorkout: 1000,
+    unitOfWorkout: "meters",
+    duration: 30,
+    type: "Swimming",
+    creator: "frank@example.com",
   },
 ];
 

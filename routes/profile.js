@@ -35,13 +35,12 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
     }
 
     // Assuming getAllUserWorkouts now requires a userID to fetch specific user workouts
-    const allUserWorkouts = await userData.getAllUserWorkouts(userID);
 
     // Fetching friends list directly from the user data
-    const friendsEmails = user.friends; // Assuming this still returns an array of friend emails
+    const friendsEmails = user.friends;
     // Map over the friendsEmails to fetch each friend's details
-    const friendsPromises = friendsEmails.map(
-      (email) => userData.getUserByEmail(email) // Assuming you have emails in the friends array
+    const friendsPromises = friendsEmails.map((email) =>
+      userData.getUserByEmail(email)
     );
     // Await all promises to resolve for friends' details
     const friendsDetails = await Promise.all(friendsPromises);
@@ -55,14 +54,46 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
       age: user.age,
       gender: user.gender,
       logStreak: user.logStreak,
-      friends: friendsDetails, // Assuming this is an array of friend IDs or details
-      workouts: allUserWorkouts,
+      friends: friendsDetails,
+      workouts: user.workouts,
       dateCreated: user.dateCreated,
       lastLogin: user.lastLogin,
     });
   } catch (error) {
     console.error("Failed to render the profile page: ", error);
     res.status(500).json({ message: "Error rendering the profile page." });
+  }
+});
+
+router.post("/addFriend/:userID", ensureAuthenticated, async (req, res) => {
+  try {
+    console.log("Adding friend...");
+    const userId = req.params.userID; // ID of the user to befriend
+    const friendsUser = await userData.getUserById(userId); // Fetch the user to befriend
+    const currentUser = req.session.user; // User session data
+
+    // Check if the current user already has this user as a friend
+    if (currentUser.friends.includes(userId)) {
+      return res.status(409).json({ message: "Already friends." }); // Conflict status if already friends
+    }
+
+    // Assuming there's a function in userData to add a friend
+    const added = await userData.addFriend(
+      currentUser.email,
+      friendsUser.email
+    );
+    console.log("Friend added:", added);
+
+    if (added) {
+      // Optionally update session data if necessary
+      req.session.user.friends.push(userId);
+      res.status(200).json({ message: "Friend added successfully" });
+    } else {
+      res.status(500).json({ message: "Failed to add friend" });
+    }
+  } catch (error) {
+    console.error("Error adding friend:", error);
+    res.status(500).json({ message: "Error processing your friend request." });
   }
 });
 

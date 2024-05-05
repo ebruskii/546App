@@ -25,7 +25,7 @@
     <ul class="navbar-nav">
         {{#each friends}}
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/profile/{{this._id}}">
                 {{this.firstName}} {{this.lastName}} 
                 <span class="status {{this.status}}"></span>
                 <!-- Display login streak next to the name -->
