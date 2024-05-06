@@ -16,23 +16,13 @@ const ensureAuthenticated = (req, res, next) => {
 router.get("/", ensureAuthenticated, async (req, res) => {
   try {
     const user = req.session.user; // Getting user info for display
-    console.log(user.email)
     const userInfo = await userData.getUserByEmail(user.email);
-
-    console.log(userInfo);
-    console.log("user ID: " + userInfo._id)
-    console.log("ID: " + userInfo._id.toString());
-
-
-    // const userId = req.params.userID; 
-    // console.log(userId)
 
     // look at this again
     const achievements = await achievementsData.getAllAchievements();
 
     const userAchievements = await achievementsData.getAchievementsByCreator(userInfo._id.toString());
     const workouts = userInfo.workouts;
-    console.log(userAchievements.length);
     let unlockedAchievements = [];
     for (let i = 0; i < achievements.length; i++) {
       let total = 0;
@@ -176,7 +166,7 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
 
 router.post("/addFriend/:userID", ensureAuthenticated, async (req, res) => {
   try {
-    console.log("Adding friend...");
+    // console.log("Adding friend...");
     const userId = req.params.userID; // ID of the user to befriend
     const friendsUser = await userData.getUserById(userId); // Fetch the user to befriend
     const currentUser = req.session.user; // User session data
@@ -191,7 +181,7 @@ router.post("/addFriend/:userID", ensureAuthenticated, async (req, res) => {
       currentUser.email,
       friendsUser.email
     );
-    console.log("Friend added:", added);
+    // console.log("Friend added:", added);
 
     if (added) {
       // Optionally update session data if necessary
