@@ -256,34 +256,28 @@ const exports = {
     return allWorkouts;
   },
 
-  // async updateWorkout(title, amountOfWorkout, unitOfWorkout, duration, type, id) {
-  //   id = helpers.isValidObjectId(id);
-  //   title = helpers.isValidString(title, "title");
-  //   amountOfWorkout = helpers.isValidString(amountOfWorkout, "description");
-  //   unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
-  //   duration = helpers.isValidInt(duration, "duration");
-  //   type = helpers.isValidString(type, "type");
+  // get based of city and state and age and tpes of workouts
+  async getSuggestedFriends(userEmail) {
+    const currentUser = await this.getUserByEmail(userEmail);
+    const allUsers = await this.getAllUsers();
 
-  //   const workoutCollection = await workouts();
-  //   const updateInfo = await workoutCollection.updateOne(
-  //     { _id: id },
-  //     {
-  //       $set: {
-  //         title,
-  //         amountOfWorkout,
-  //         unitOfWorkout,
-  //         duration,
-  //         type,
-  //       },
-  //     }
-  //   );
+    if (!currentUser) {
+      throw new Error("Current user not found");
+    }
 
-  //   if (updateInfo.modifiedCount === 0) {
-  //     throw "Error: could not update workout";
-  //   }
+    // Assuming 'friends' is an array of email addresses or user IDs
+    const currentFriends = new Set(currentUser.friends); // Convert to a Set for faster lookup
 
-  //   return await this.getWorkoutById(id);
-  // },
+    return allUsers.filter((user) => {
+      return (
+        user.email !== currentUser.email && // Not the current user
+        !currentFriends.has(user.email) && // Not already a friend
+        Math.abs(user.age - currentUser.age) <= 3 && // Age within 3 years
+        user.city === currentUser.city && // Same city
+        user.state === currentUser.state // Same state
+      );
+    });
+  },
 };
 
 export default exports;

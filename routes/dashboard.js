@@ -28,11 +28,18 @@ router.get("/", ensureAuthenticated, async (req, res) => {
     // get all the workouts all current users
     const allUserWorkouts = await usersData.getAllUserWorkouts();
 
+    const suggestedFriends = await usersData.getSuggestedFriends(
+      req.session.user.email
+    );
+
+    console.log(suggestedFriends);
+
     res.render("dashboard", {
       challenges: challenges,
       workouts: allUserWorkouts,
       workoutTypes: workoutTypes,
-      friends: friendsDetails, // Pass the array of friends' details
+      friends: friendsDetails,
+      suggestedFriends: suggestedFriends,
     });
   } catch (error) {
     console.error("Failed to fetch challenges:", error);

@@ -31,9 +31,8 @@
         <ul class="navbar-nav">
             {{#each suggestedFriends}}
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/profile/{{this._id}}">
                     {{this.firstName}} {{this.lastName}}
-                    <button class="btn btn-sm btn-primary ml-2">Add Friend</button>
                 </a>
             </li>
             {{/each}}
