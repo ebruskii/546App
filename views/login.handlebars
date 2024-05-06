@@ -18,14 +18,15 @@
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
+                        <p id="error" style="display:none"></p>
                         <p class="mt-4">Don't have an account? <a href="/register">Click here to register!</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
+    <script src="/js/client_side_validation_login.js"></script>
+    {{!-- <script>
     $(document).ready(function() {
         $('#loginForm').submit(function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
@@ -48,4 +49,4 @@
             });
         });
     });
-    </script>
+    </script> --}}

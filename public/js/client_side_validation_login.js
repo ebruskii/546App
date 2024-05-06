@@ -57,57 +57,34 @@
     return Number(int);
   }
 
-let registerForm = document.getElementById("registerForm");
+let loginForm = document.getElementById("loginForm");
 let error = document.getElementById("error");
-registerForm.addEventListener("submit", async (event) => {
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
-    let firstName = document.getElementById("firstName").value;
-    let lastName = document.getElementById("lastName").value;
-    let city = document.getElementById("city").value;
-    let state = document.getElementById("state").value;
-    let age = document.getElementById("age").value;
-    let gender = document.getElementById("gender").value;
     try{
-        email = isValidEmail(email, "email");
-        password = isValidPassword(password, "password");
-        firstName = isValidString(firstName, "firstName");
-        lastName = isValidString(lastName, "lastName");
-        city = isValidString(city, "city");
-        state = isValidString(state, "state");
-        age = isValidInt(age, "age");
-        gender = isValidString(gender, "gender");
+        email = isValidEmail(email);
+        password = isValidPassword(password); 
     }catch(e){
-        error.innerHTML = e;
+        error.innerHTML = "Incorrect Username or Password";
         error.style.display = "block";
         return;
     }
     try {
-        //use fetch for the response object below instead of axios 
-        let response = await fetch("/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                firstName: firstName,
-                lastName: lastName,
-                city: city,
-                state: state,
-                age: age,
-                gender: gender
-            }),
+        let response = await fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         });
-        
         if (response.status === 200) {
             window.location.href = "/login"; // Redirect on success
         } else {
-            alert('Registration failed: ' + response.message); // Display the error message from server
+            alert('Login failed: ' + response.message); // Display the error message from server
         }
     } catch (error) {
-        console.log(error);
+      console.error("Incorrect Username or Password");
     }
 });
