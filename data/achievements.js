@@ -4,13 +4,13 @@ import helpers from "../helpers.js";
 import { achievements } from "../config/mongoCollections.js";
 
 const exports = {
-  async createAchievement(title, description, goal, type, unitOfWorkout, creator) {
+  async createAchievement(title, description, goal, type, unitOfWorkout) {
     title = helpers.isValidString(title, "title");
     description = helpers.isValidString(description, "description");
     goal = helpers.isValidInt(goal, "goal");
     type = helpers.isValidString(type, "type");
     unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
-    creator = helpers.isValidId(creator);
+    //creator = helpers.isValidId(creator);
 
     const achievementCollection = await achievements();
     const insertResult = await achievementCollection.insertOne({
@@ -18,7 +18,6 @@ const exports = {
       description,
       goal,
       type,
-      creator,
       unitOfWorkout,
       dateCreated: helpers.generateDate(),
     });

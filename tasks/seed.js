@@ -2,7 +2,7 @@
 import workoutFuncs from "../data/workouts.js";
 import challengesData from "../data/challenges.js";
 import userData from "../data/users.js";
-
+import achievementsData from "../data/achievements.js";
 // try{
 //     const db = await dbConnection();
 //     await db.dropDatabase();
@@ -214,9 +214,65 @@ async function seedDatabase() {
       await workoutFuncs.createWorkoutType("Yoga", ["calories"]);
       await workoutFuncs.createWorkoutType("Gym", ["calories"]);
       console.log("All users have been added and friendships established.");
+
     }
   } catch (error) {
     console.error("An error occurred while seeding the database:", error);
+  }
+  const achievements = await achievementsData.getAllAchievements();
+  if(achievements.length === 0){
+    const achievementId1 = await achievementsData.createAchievement(
+        "New User",
+        "Log in for the first time",
+        1,
+        "Login Streak",
+        "count"
+      );
+      const achievementId2 = await achievementsData.createAchievement(
+        "100K Run Club",
+        "Run 100 kilometers in total",
+        100,
+        "Running",
+        "kilometers"
+      );
+      const achievementId3 = await achievementsData.createAchievement(
+        "200K Bike Club",
+        "Bike 10 kilometers in total",
+        200,
+        "Biking",
+        "kilometers"
+      );
+      const achievementId4 = await achievementsData.createAchievement(
+        "5K Swim Club",
+        "Swim 5000 meters in total",
+        5000,
+        "Swimming",
+        "meters"
+      );
+      const achievementId5 = await achievementsData.createAchievement(
+        "Tennis Pro",
+        "Burn 5000 calories playing tennis",
+        5000,
+        "Tennis",
+        "calories"
+      );
+      const achievementId6 = await achievementsData.createAchievement(
+        "Yoga Master",
+        "Burn 1000 calories doing yoga",
+        1000,
+        "Yoga",
+        "calories"
+      );
+      const achievementId7 = await achievementsData.createAchievement(
+        "Gym Rat",
+        "Burn 10000 calories at the gym",
+        10000,
+        "Gym",
+        "calories"
+      );
+      console.log("All achievements have been added.")
+  }else{
+    console.log("Achievements already exist. No mock data added.")
   }
 }
 

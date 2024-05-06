@@ -74,7 +74,7 @@
                     <div>
                         <h6>{{this.title}}</h6>
                         <p>{{this.type}} - {{this.duration}} mins</p>
-                        <p>Goal: {{this.goal}}</p>
+                        <p>Total: {{this.amountOfWorkout}} {{this.unitOfWorkout}}</p>
                     </div>
                     <small>Posted on: {{this.date}}</small> <!-- Ensure you have a dateFormat helper -->
                 </div>
@@ -85,6 +85,31 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.7.12/umd.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // dynamically update the workouts list after the page has loaded and the database has a new workout added
+        $(document).ready(function() {
+            // Fetch the workouts from the database
+            $.get('/api/workouts', function(data) {
+                // Clear the current list of workouts
+                $('.list-group').empty();
+                // Loop through the workouts and append them to the list
+                data.forEach(function(workout) {
+                    $('.list-group').append(`
+                        <a href="/profile/${workout.userID}" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <div>
+                                    <h6>${workout.title}</h6>
+                                    <p>${workout.type} - ${workout.duration} mins</p>
+                                    <p>Total: ${workout.amountOfWorkout} ${workout.unitOfWorkout}</p>
+                                </div>
+                                <small>Posted on: ${workout.date}</small>
+                            </div>
+                        </a>
+                    `);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import userData from "../data/users.js";
-import achievements from "../data/achievements.js";
+import achievementsData from "../data/achievements.js";
 
 const ensureAuthenticated = (req, res, next) => {
   if (!req.session.user) {
@@ -28,10 +28,89 @@ router.get("/", ensureAuthenticated, async (req, res) => {
     // console.log(userId)
 
     // look at this again
-    const userAchievements = await achievements.getAchievementsByCreator(userInfo._id.toString());
-    console.log(userAchievements.length);
+    const achievements = await achievementsData.getAllAchievements();
 
-    const processedAchievements = userAchievements.map((achievement) => {
+    const userAchievements = await achievementsData.getAchievementsByCreator(userInfo._id.toString());
+    const workouts = userInfo.workouts;
+    console.log(userAchievements.length);
+    let unlockedAchievements = [];
+    for (let i = 0; i < achievements.length; i++) {
+      let total = 0;
+      if(achievements[i].type == "Running"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Running"){
+                  if(workouts[j].unitOfWorkout == "kilometers"){
+                      total += workouts[j].amountOfWorkout;
+                  }else{
+                      total += workouts[j].amountOfWorkout / 1000;
+                  }
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+      }else if(achievements[i].type == "Biking"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Biking"){
+                  if(workouts[j].unitOfWorkout == "kilometers"){
+                      total += workouts[j].amountOfWorkout;
+                  }else{
+                      total += workouts[j].amountOfWorkout / 1000;
+                  }
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+        }else if(achievements[i].type == "Swimming"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Swimming"){
+                      total += workouts[j].amountOfWorkout;
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+        }else if (achievements[i].type == "Tennis"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Tennis"){
+                  total += workouts[j].amountOfWorkout;
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+        }else if (achievements[i].type == "Gym"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Gym"){
+                  total += workouts[j].amountOfWorkout;
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+        } else if (achievements[i].type == "Yoga"){
+          for(let j = 0; j < workouts.length; j++){
+              if(workouts[j].type == "Yoga"){
+                  total += workouts[j].amountOfWorkout;
+                  if(total >= achievements[i].goal){
+                      unlockedAchievements.push(achievements[i]);
+                      break;
+                  }
+              }
+          }
+        }else if (achievements[i].type == "Login Streak"){
+          if(userInfo.logStreak >= achievements[i].goal){
+              unlockedAchievements.push(achievements[i]);
+          }
+        }
+    }
+    const processedAchievements = unlockedAchievements.map((achievement) => {
         return {
             title: achievement.title,
             description: achievement.description,

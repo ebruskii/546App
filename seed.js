@@ -229,20 +229,53 @@ async function seedDatabase() {
     
 
     const achievementId1 = await achievementsData.createAchievement(
-      "First Achievement",
-      "Description of the first achievement",
-      10,
-      "Type 1",
-      "Unit 1",
-      aliceUserIdString
+      "New User",
+      "Log in for the first time",
+      1,
+      "Login Streak",
+      "count"
     );
     const achievementId2 = await achievementsData.createAchievement(
-      "Second Achievement",
-      "Description of the second achievement",
-      20,
-      "Type 2",
-      "Unit 2",
-      aliceUserIdString
+      "100K Run Club",
+      "Run 100 kilometers in total",
+      100,
+      "Running",
+      "kilometers"
+    );
+    const achievementId3 = await achievementsData.createAchievement(
+      "200K Bike Club",
+      "Bike 10 kilometers in total",
+      200,
+      "Biking",
+      "kilometers"
+    );
+    const achievementId4 = await achievementsData.createAchievement(
+      "5K Swim Club",
+      "Swim 5000 meters in total",
+      5000,
+      "Swimming",
+      "meters"
+    );
+    const achievementId5 = await achievementsData.createAchievement(
+      "Tennis Pro",
+      "Burn 5000 calories playing tennis",
+      5000,
+      "Tennis",
+      "calories"
+    );
+    const achievementId6 = await achievementsData.createAchievement(
+      "Yoga Master",
+      "Burn 1000 calories doing yoga",
+      1000,
+      "Yoga",
+      "calories"
+    );
+    const achievementId7 = await achievementsData.createAchievement(
+      "Gym Rat",
+      "Burn 10000 calories at the gym",
+      10000,
+      "Gym",
+      "calories"
     );
 
     console.log(
