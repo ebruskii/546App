@@ -107,3 +107,30 @@ body, html {
 .container.mt-4 {
     margin-top: 5rem !important; /* This increases the top margin of the container */
 }
+
+
+.logo-container {
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.logo-container img {
+    max-width: 100%; 
+    height: auto; 
+}
+
+.small-logo {
+    width: 40px; 
+    height: auto; /*aspect ratio*/
+    margin-left:10px;
+    margin-top: 10px;
+}
+
+.right-sidebar .lifter-container {
+    margin-top: 15px; 
+}
+
+.right-sidebar .lifter-container img {
+    max-width: 100%; /*container width */
+    height: auto; 
+}
