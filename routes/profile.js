@@ -120,7 +120,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
         };
     });
     
-    res.render("profile", { user, achievements: processedAchievements });// Render the profile page using the user info
+    res.render("profile", { user: userInfo, achievements: processedAchievements });// Render the profile page using the user info
   } catch (error) {
     console.error("Failed to render the profile page: ", error);
     res

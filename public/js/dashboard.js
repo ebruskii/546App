@@ -1,3 +1,38 @@
+  // check string helper
+  function isValidString(str, varName) {
+    if (!str) {
+      throw `Error: ${varName} must be provided`;
+    }
+    if (typeof str !== "string") {
+      throw `Error: ${varName} must be a string`;
+    }
+
+    str = str.trim();
+    if (str.length === 0) {
+      throw `Error: ${varName} must not be empty`;
+    }
+    if (!isNaN(str)) {
+      throw `Error: ${varName} must not only contain numbers`;
+    }
+
+    return str;
+  }
+
+  // check Intiger helper
+  function isValidInt(int, varName) {
+    if (!int) {
+      throw `Error: ${varName} must be provided`;
+    }
+    if (isNaN(int)) {
+      throw `Error: ${varName} must be a number`;
+    }
+    // none of our numbers should be negative
+    if (int < 0) {
+      throw `Error: ${varName} must be greater than 0`;
+    }
+    return Number(int);
+  }
+
 let workoutTypes = {"Running": ["kilometers", "meters"], "Yoga": ["calories"], "Gym": ["calories"], "Biking": ["kilometers", "meters"], "Tennis": ["calories"], "Swimming": ["meters"]};
 let workoutbutton = document.getElementById("addWorkout");
 let modalType = document.getElementById("addWorkoutModalType");
@@ -84,6 +119,11 @@ submitWorkout.addEventListener("click", async (event) => {
     let workoutUnit = document.getElementById("workoutUnit").value;
     let workoutAmount = document.getElementById("workoutAmount").value;
     let workoutDuration = document.getElementById("workoutDuration").value;
+    workoutType = isValidString(workoutType, "workoutType");
+    workoutTitle = isValidString(workoutTitle, "workoutTitle");
+    workoutUnit = isValidString(workoutUnit, "workoutUnit");
+    workoutAmount = isValidInt(workoutAmount, "workoutAmount");
+    workoutDuration = isValidInt(workoutDuration, "workoutDuration");
     let workout = {
         title: workoutTitle,
         amountOfWorkout: workoutAmount,
