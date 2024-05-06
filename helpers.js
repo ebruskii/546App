@@ -53,7 +53,7 @@ const exports = {
     if (int < 0) {
       throw `Error: ${varName} must be greater than 0`;
     }
-    return int;
+    return Number(int);
   },
 
   // check valid state

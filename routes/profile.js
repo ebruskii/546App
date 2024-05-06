@@ -73,7 +73,7 @@ router.get("/:userID", ensureAuthenticated, async (req, res) => {
     );
     // Await all promises to resolve for friends' details
     const friendsDetails = await Promise.all(friendsPromises);
-    console.log("Rendered Users Page")
+    //console.log("Rendered Users Page")
     res.render("user", {
       firstName: user.firstName,
       lastName: user.lastName,

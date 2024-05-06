@@ -28,7 +28,7 @@ const mockChallenges = [
     creator: "Admin",
   },
   {
-    title: "Swim 1 KiloMeter",
+    title: "Swim 1 Kilometer",
     description: "Swim a total of one kilometer",
     goal: "1",
     unit: "kilometers",
