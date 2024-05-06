@@ -172,7 +172,7 @@ router.post("/addFriend/:userID", ensureAuthenticated, async (req, res) => {
     const currentUser = req.session.user; // User session data
 
     // Check if the current user already has this user as a friend
-    if (currentUser.friends.includes(userId)) {
+    if (currentUser.friends.includes(friendsUser.email)) {
       return res.status(409).json({ message: "Already friends." }); // Conflict status if already friends
     }
 
@@ -185,7 +185,7 @@ router.post("/addFriend/:userID", ensureAuthenticated, async (req, res) => {
 
     if (added) {
       // Optionally update session data if necessary
-      req.session.user.friends.push(userId);
+      currentUser.friends.push(friendsUser.email);
       res.status(200).json({ message: "Friend added successfully" });
     } else {
       res.status(500).json({ message: "Failed to add friend" });
