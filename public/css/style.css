@@ -138,3 +138,7 @@ body, html {
 .btn.btn-primary.btn-block{
     background-color: #3B5FA6;
 }
+
+.btn.btn-primary{
+    background-color: #3B5FA6;
+}
