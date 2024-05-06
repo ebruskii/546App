@@ -1,4 +1,6 @@
-  // check string helper
+import userData from '../../data/users.js'
+
+// check string helper
   function isValidPassword(password) {
     password = this.isValidString(password, "password", 8, 100);
 
@@ -62,6 +64,7 @@ let error = document.getElementById("error");
 registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     let email = document.getElementById("email").value;
+    email = email.toLowerCase();
     let password = document.getElementById("password").value;
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
@@ -78,6 +81,11 @@ registerForm.addEventListener("submit", async (event) => {
         state = isValidString(state, "state");
         age = isValidInt(age, "age");
         gender = isValidString(gender, "gender");
+      if (userData.getUserByEmail(email)){
+          throw new Error("Invalid email or password provided");
+        }
+
+      
     }catch(e){
         error.innerHTML = e;
         error.style.display = "block";
