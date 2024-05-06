@@ -129,7 +129,15 @@ const exports = {
     }
     return email;
   },
-
+  isValidBoolean(bool, varName) { 
+    if(bool === undefined) {
+      throw `Error: ${varName} must be provided`;
+    }
+    if (typeof bool !== "boolean") {
+      throw `Error: ${varName} must be a boolean`;
+    }
+    return bool;
+  },
   // check valid password
   isValidPassword(password) {
     password = this.isValidString(password, "password", 8, 100);

@@ -107,6 +107,7 @@ const mockWorkouts = [
     unitOfWorkout: "kilometers",
     duration: 30,
     type: "Running",
+    public: false,
     creator: "alice@example.com",
   },
   {
@@ -115,6 +116,7 @@ const mockWorkouts = [
     unitOfWorkout: "calories",
     duration: 60,
     type: "Yoga",
+    public: true,
     creator: "bob@example.com",
   },
   {
@@ -123,6 +125,7 @@ const mockWorkouts = [
     unitOfWorkout: "calories",
     duration: 120,
     type: "Gym",
+    public: false,
     creator: "carol@example.com",
   },
   {
@@ -131,6 +134,7 @@ const mockWorkouts = [
     unitOfWorkout: "kilometers",
     duration: 90,
     type: "Biking",
+    public: true,
     creator: "dave@example.com",
   },
   {
@@ -139,6 +143,7 @@ const mockWorkouts = [
     unitOfWorkout: "calories",
     duration: 45,
     type: "Tennis",
+    public: true,
     creator: "emma@example.com",
   },
   {
@@ -147,6 +152,7 @@ const mockWorkouts = [
     unitOfWorkout: "meters",
     duration: 30,
     type: "Swimming",
+    public: true,
     creator: "frank@example.com",
   },
 ];
@@ -198,6 +204,7 @@ async function seedDatabase() {
           workout.unitOfWorkout,
           workout.duration,
           workout.type,
+          workout.public,
           workout.creator
         );
         console.log(`Workout '${workout.title}' added for ${workout.creator}`);

@@ -1,11 +1,6 @@
     <script src="/js/dashboard.js" defer></script>
     <!-- left Sidebar -->
     <div class="sidebar bg-light">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="/dashboard">Feed</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Friends</a></li>
-            <!-- More sidebar items -->
-        </ul>
     </div>
 
     <!-- Right Sidebar for Friends List -->
@@ -51,6 +46,7 @@
         </div>
         <div class="list-group">
             {{#each workouts}}
+            {{#if this.public}}
             <a href="/profile/{{this.userID}}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <div>
@@ -60,6 +56,7 @@
                     <small>Posted on: {{ this.date}}</small> <!-- Ensure you have a dateFormat helper -->
                 </div>
             </a>
+            {{/if}}
             {{/each}}
         </div>
     </section>
@@ -93,7 +90,7 @@
                 <div class="modal-body">
                     <form id="addWorkoutForm">
                         <div class="form-group">
-                            <label for="type">Workout Type</label>
+                            <label>Workout Type</label>
                             <select class="form-group" name="workoutType" id="workoutType">
                                 {{#each workoutTypes}}
                                 <option value="{{this.type}}">{{this.type}}</option>

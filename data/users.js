@@ -182,6 +182,7 @@ const exports = {
     unitOfWorkout,
     duration,
     type,
+    pub_priv,
     creatorEmail
   ) {
     // Validate input data
@@ -191,6 +192,7 @@ const exports = {
     duration = helpers.isValidInt(duration, "duration");
     type = helpers.isValidString(type, "type");
     creatorEmail = helpers.isValidEmail(creatorEmail); // Assuming you have a function to validate email format
+    pub_priv = helpers.isValidBoolean(pub_priv, "public");
     const WorkoutUser = await this.getUserByEmail(creatorEmail);
 
     const date = helpers.generateDate();
@@ -201,6 +203,7 @@ const exports = {
       duration,
       type,
       date,
+      public: pub_priv,
       creatorEmail,
       userID: WorkoutUser._id.toString(),
     };
