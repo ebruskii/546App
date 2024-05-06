@@ -10,7 +10,7 @@ const exports = {
     goal = helpers.isValidInt(goal, "goal");
     type = helpers.isValidString(type, "type");
     unitOfWorkout = helpers.isValidString(unitOfWorkout, "unitOfWorkout");
-    creator = helpers.isValidObjectId(creator);
+    creator = helpers.isValidId(creator);
 
     const achievementCollection = await achievements();
     const insertResult = await achievementCollection.insertOne({
@@ -85,6 +85,19 @@ const exports = {
 
     return achievementList;
   },
+
+  async getAchievementsByCreator(creatorId){
+    const achievementCollection = await achievements();
+    const achievementList = await achievementCollection.find({creator: creatorId}).toArray();
+    console.log("creatorId: ", creatorId);
+    console.log(achievementList);
+
+    if (!achievementList) {
+      throw "Error: no achievements found";
+    }
+
+    return achievementList;
+  }
 };
 
 export default exports;

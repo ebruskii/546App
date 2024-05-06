@@ -16,8 +16,32 @@ const ensureAuthenticated = (req, res, next) => {
 router.get("/", ensureAuthenticated, async (req, res) => {
   try {
     const user = req.session.user; // Getting user info for display
-    //console.log("Rendered Profile Page")
-    res.render("profile", { user }); // Render the profile page using the user info
+    console.log(user.email)
+    const userInfo = await userData.getUserByEmail(user.email);
+
+    console.log(userInfo);
+    console.log("user ID: " + userInfo._id)
+    console.log("ID: " + userInfo._id.toString());
+
+
+    // const userId = req.params.userID; 
+    // console.log(userId)
+
+    // look at this again
+    const userAchievements = await achievements.getAchievementsByCreator(userInfo._id.toString());
+    console.log(userAchievements.length);
+
+    const processedAchievements = userAchievements.map((achievement) => {
+        return {
+            title: achievement.title,
+            description: achievement.description,
+            type: achievement.type,
+            goal: achievement.goal.toString(), // Convert goal to string
+            unitOfWorkout: achievement.unitOfWorkout
+        };
+    });
+    
+    res.render("profile", { user, achievements: processedAchievements });// Render the profile page using the user info
   } catch (error) {
     console.error("Failed to render the profile page: ", error);
     res
@@ -28,6 +52,10 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 
 router.get("/:userID", ensureAuthenticated, async (req, res) => {
   try {
+
+    const userId = req.session.user._id; // Accessing user ID from the session
+    console.log("User ID:", userId);
+
     const userID = req.params.userID; // Extracting userID from the URL
     const user = await userData.getUserById(userID); // Fetch user by ID instead of email
 
