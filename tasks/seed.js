@@ -1,26 +1,37 @@
+//import { closeConnection, dbConnection } from '../config/mongoConnection.js';
 import workoutFuncs from "../data/workouts.js";
 import challengesData from "../data/challenges.js";
 import userData from "../data/users.js";
+
+// try{
+//     const db = await dbConnection();
+//     await db.dropDatabase();
+// }catch(e){
+//     console.log(e);
+// }
 
 const mockChallenges = [
   {
     title: "Run 5K",
     description: "Complete a 5K run",
-    goal: "5000 meters",
+    goal: "5000",
+    unit: "meters",
     type: "Running",
     creator: "Admin",
   },
   {
-    title: "Bike 10 Miles",
-    description: "Go on a 10-mile bike ride",
-    goal: "10 miles",
+    title: "Bike 10 Kilometers",
+    description: "Go on a 10K bike ride",
+    goal: "10",
+    unit: "kilometers",
     type: "Biking",
     creator: "Admin",
   },
   {
-    title: "Swim 1 Mile",
-    description: "Swim a total of one mile",
-    goal: "1 mile",
+    title: "Swim 1 KiloMeter",
+    description: "Swim a total of one kilometer",
+    goal: "1",
+    unit: "kilometers",
     type: "Swimming",
     creator: "Admin",
   },
@@ -57,6 +68,36 @@ const mockUsers = [
     age: 28,
     gender: "Female",
   },
+  {
+    email: "dave@example.com",
+    password: "Password123!",
+    firstName: "Dave",
+    lastName: "Brown",
+    city: "Miami",
+    state: "FL",
+    age: 32,
+    gender: "Male",
+  },
+  {
+    email: "emma@example.com",
+    password: "Password123!",
+    firstName: "Emma",
+    lastName: "Davis",
+    city: "Seattle",
+    state: "WA",
+    age: 29,
+    gender: "Female",
+  },
+  {
+    email: "frank@example.com",
+    password: "Password123!",
+    firstName: "Frank",
+    lastName: "Wilson",
+    city: "Austin",
+    state: "TX",
+    age: 27,
+    gender: "Male",
+  },
 ];
 
 const mockWorkouts = [
@@ -65,24 +106,48 @@ const mockWorkouts = [
     amountOfWorkout: 5,
     unitOfWorkout: "kilometers",
     duration: 30,
-    type: "Cardio",
+    type: "Running",
     creator: "alice@example.com",
   },
   {
     title: "Evening Yoga",
-    amountOfWorkout: 1,
-    unitOfWorkout: "hour",
+    amountOfWorkout: 150,
+    unitOfWorkout: "calories",
     duration: 60,
-    type: "Flexibility",
+    type: "Yoga",
     creator: "bob@example.com",
   },
   {
     title: "Gym Session",
-    amountOfWorkout: 2,
-    unitOfWorkout: "hours",
+    amountOfWorkout: 500,
+    unitOfWorkout: "calories",
     duration: 120,
-    type: "Strength",
+    type: "Gym",
     creator: "carol@example.com",
+  },
+  {
+    title: "Afternoon Biking",
+    amountOfWorkout: 20,
+    unitOfWorkout: "kilometers",
+    duration: 90,
+    type: "Biking",
+    creator: "dave@example.com",
+  },
+  {
+    title: "Lunchtime Tennis",
+    amountOfWorkout: 300,
+    unitOfWorkout: "calories",
+    duration: 45,
+    type: "Tennis",
+    creator: "emma@example.com",
+  },
+  {
+    title: "Morning Swimming",
+    amountOfWorkout: 1000,
+    unitOfWorkout: "meters",
+    duration: 30,
+    type: "Swimming",
+    creator: "frank@example.com",
   },
 ];
 
@@ -94,8 +159,9 @@ async function seedDatabase() {
         await challengesData.createChallenge(
           challenge.title,
           challenge.description,
-          challenge.goal,
           challenge.type,
+          challenge.unit,
+          challenge.goal,
           challenge.creator
         );
         console.log(`Challenge created: ${challenge.title}`);
@@ -141,6 +207,12 @@ async function seedDatabase() {
       await userData.addFriend(mockUsers[1].email, mockUsers[2].email);
       await userData.addFriend(mockUsers[0].email, mockUsers[2].email);
 
+      await workoutFuncs.createWorkoutType("Running", ["kilometers", "meters"]);
+      await workoutFuncs.createWorkoutType("Biking", ["kilometers", "meters"]);
+      await workoutFuncs.createWorkoutType("Swimming", ["meters"]);
+      await workoutFuncs.createWorkoutType("Tennis", ["calories"]);
+      await workoutFuncs.createWorkoutType("Yoga", ["calories"]);
+      await workoutFuncs.createWorkoutType("Gym", ["calories"]);
       console.log("All users have been added and friendships established.");
     }
   } catch (error) {
@@ -149,3 +221,9 @@ async function seedDatabase() {
 }
 
 seedDatabase();
+
+// try
+// {await closeConnection();}
+// catch(e){
+//   console.log(e)
+// }

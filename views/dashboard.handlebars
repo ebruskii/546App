@@ -20,43 +20,68 @@
     </div>
 
     <!-- Right Sidebar for Friends List -->
-    <div class="right-sidebar">
+<div class="right-sidebar">
+    <h3 class="text-center">My Friends</h3>
+    <ul class="navbar-nav">
+        {{#each friends}}
+        <li class="nav-item">
+            <a class="nav-link" href="/profile/{{this._id}}">
+                {{this.firstName}} {{this.lastName}} 
+                <span class="status {{this.status}}"></span>
+                <!-- Display login streak next to the name -->
+                <small>(Streak: {{this.logStreak}})</small>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+     <!-- Use spacer to push Suggested Friends towards the middle or bottom -->
+    <div class="spacer flex-grow-1"></div>
+
+    <div class="suggested-friends-container">
+        <h4 class="text-center">Suggested Friends</h4>
         <ul class="navbar-nav">
-            {{#each friends}}
-            <li class="nav-item">Friends</a></li>
+            {{#each suggestedFriends}}
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    {{this.name}} <span class="status {{this.status}}"></span>
+                    {{this.firstName}} {{this.lastName}}
+                    <button class="btn btn-sm btn-primary ml-2">Add Friend</button>
                 </a>
             </li>
             {{/each}}
         </ul>
     </div>
+</div>
+
 
     <!-- Main Content Area -->
     <div class="content">
         <!-- Workout logs displayed like stories -->
         <section class="mt-4">
-            <h2>User Workouts</h2>
-            <div>
-                <button class="btn btn-primary" id="addWorkout">Add Workout</button>
-            </div>
-            <div class="stories">
-                {{#each workouts}}
-                <div class="story bg-light">
-                    <h6>{{this.user}}</h6>
-                    <p>{{this.type}} - {{this.duration}} mins</p>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Our FLEXER'S At Work</h2>
+            <button class="btn btn-primary" id="addWorkout">Add Workout</button>
+        </div>
+        <div class="list-group">
+            {{#each workouts}}
+            <a href="/profile/{{this.userID}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <h6>{{this.userName}}'s Workout</h6>
+                        <p>{{this.type}} - {{this.duration}} mins</p>
+                    </div>
+                    <small>Posted on: {{ this.date}}</small> <!-- Ensure you have a dateFormat helper -->
                 </div>
-                {{/each}}
-            </div>
-        </section>
+            </a>
+            {{/each}}
+        </div>
+    </section>
 
         <!-- Challenges displayed like posts -->
         <section class="mt-4">
             <h2>Current Challenges</h2>
             <div class="list-group">
                 {{#each challenges}}
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <a href="/challenges/{{this._id}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{this.title}}</h5>
                         <small>{{this.duration}}</small>
@@ -68,12 +93,12 @@
             </div>
         </section>
     </div>
-    <div class="modal" style="display: none" id="addWorkoutModal">
+    <div class="modal" style="display: none" id="addWorkoutModalType">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Workout</h5>
-                    <button type="button" class="close" data-dismiss="modal">
+                    <h5 class="modal-title">Workout Type</h5>
+                    <button type="button" id="close" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
@@ -83,15 +108,35 @@
                             <label for="type">Workout Type</label>
                             <select class="form-group" name="workoutType" id="workoutType">
                                 {{#each workoutTypes}}
-                                <option value="Running">Running</option>
+                                <option value="{{this.type}}">{{this.type}}</option>
                                 {{/each}}
                             </select>
                         </div>
+                        <button type="submit" id="findWorkout" class="btn btn-primary btn-block">Type of Workout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" style="display: none" id="addWorkoutModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Workout</h5>
+                    <button type="button" id="close1" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="workoutForm">
                         <div class="form-group">
-                        <label for="duration">Duration</label>
-                        <input type="number" class="form-control" id="duration" name="duration" min="0">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Add Workout</button>
+                        </div>
+                        <button type="submit" id="submitWorkout" class="btn btn-primary btn-block">Add Workout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.7.12/umd.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

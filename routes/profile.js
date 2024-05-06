@@ -52,9 +52,9 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 
 router.get("/:userID", ensureAuthenticated, async (req, res) => {
   try {
+
     const userId = req.session.user._id; // Accessing user ID from the session
     console.log("User ID:", userId);
-
 
     const userID = req.params.userID; // Extracting userID from the URL
     const user = await userData.getUserById(userID); // Fetch user by ID instead of email

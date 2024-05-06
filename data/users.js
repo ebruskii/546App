@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 const exports = {
   // create user
+  // updated new
   async createUser(
     email,
     password,
@@ -72,6 +73,19 @@ const exports = {
     searched._id = searched._id.toString();
     return searched;
   },
+  //get user by email
+  async getUserByEmail(email) {
+    email = helpers.isValidEmail(email);
+    const userCollection = await users();
+    const user = await userCollection.findOne({
+      email: email,
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  },
+
   async loginUser(email, password) {
     if (!helpers.isValidEmail(email) || !helpers.isValidPassword(password)) {
       throw new Error("Either the email or password format is invalid");
@@ -143,6 +157,11 @@ const exports = {
       { email: userEmail },
       { $set: { friends: user.friends } }
     );
+    friend.friends.push(userEmail);
+    await userCollection.updateOne(
+      { email: friendEmail },
+      { $set: { friends: friend.friends } }
+    );
 
     return { success: true };
   },
@@ -172,6 +191,7 @@ const exports = {
     duration = helpers.isValidInt(duration, "duration");
     type = helpers.isValidString(type, "type");
     creatorEmail = helpers.isValidEmail(creatorEmail); // Assuming you have a function to validate email format
+    const WorkoutUser = await this.getUserByEmail(creatorEmail);
 
     const date = helpers.generateDate();
     const workoutObject = {
@@ -181,6 +201,8 @@ const exports = {
       duration,
       type,
       date,
+      creatorEmail,
+      userID: WorkoutUser._id.toString(),
     };
 
     // Retrieve user collection and user by email
@@ -209,6 +231,31 @@ const exports = {
     const workoutList = user.workouts;
     return workoutList;
   },
+
+  async getAllUserWorkouts() {
+    const userCollection = await users();
+    const userList = await userCollection.find({}).toArray();
+    if (!userList) {
+      throw "Error: no users found";
+    }
+
+    // Creating an array that will hold all the workouts of all users
+    const allWorkouts = userList
+      .map((user) => {
+        // Optionally, you might want to include user information with each workout
+        return user.workouts.map((workout) => {
+          return {
+            userId: user._id,
+            userName: `${user.firstName} ${user.lastName}`,
+            ...workout,
+          };
+        });
+      })
+      .flat(); // Use flat to flatten the array of arrays into a single array
+
+    return allWorkouts;
+  },
+
   // async updateWorkout(title, amountOfWorkout, unitOfWorkout, duration, type, id) {
   //   id = helpers.isValidObjectId(id);
   //   title = helpers.isValidString(title, "title");
