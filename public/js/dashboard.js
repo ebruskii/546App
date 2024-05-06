@@ -32,6 +32,15 @@
     }
     return Number(int);
   }
+  function isValidBoolean(bool, varName) { 
+    if(bool === undefined) {
+      throw `Error: ${varName} must be provided`;
+    }
+    if (typeof bool !== "boolean") {
+      throw `Error: ${varName} must be a boolean`;
+    }
+    return bool;
+  }
 
 let workoutTypes = {"Running": ["kilometers", "meters"], "Yoga": ["calories"], "Gym": ["calories"], "Biking": ["kilometers", "meters"], "Tennis": ["calories"], "Swimming": ["meters"]};
 let workoutbutton = document.getElementById("addWorkout");
@@ -86,7 +95,7 @@ findWorkout.addEventListener("click", async (event) => {
         workoutUnitSelect.appendChild(option);
     }
     let workoutAmountLabel = document.createElement("label");
-    workoutAmountLabel.innerHTML = "Amount of Workout";
+    workoutAmountLabel.innerHTML = "Total Amount of Workout";
     formGroup.appendChild(workoutAmountLabel);
     let workoutAmount = document.createElement("input");
     workoutAmount.type = "number";
@@ -97,8 +106,24 @@ findWorkout.addEventListener("click", async (event) => {
     formGroup.appendChild(workoutDurationLabel);
     let workoutDuration = document.createElement("input");
     workoutDuration.type = "number";
+    workoutDuration.placeholder = "in minutes";
     workoutDuration.id = "workoutDuration";
     formGroup.appendChild(workoutDuration);
+    let pubLabel = document.createElement("label");
+    pubLabel.innerHTML = "Public?";
+    formGroup.appendChild(pubLabel);
+    let pubSelect = document.createElement("select");
+    pubSelect.id = "public";
+    let pubOption = document.createElement("option");
+    pubOption.value = "true";
+    pubOption.innerHTML = "Yes";
+    pubSelect.appendChild(pubOption);
+    pubOption = document.createElement("option");
+    pubOption.value = "false";
+    pubOption.innerHTML = "No";
+    pubSelect.appendChild(pubOption);
+    formGroup.appendChild(pubSelect);
+
     // let submit = document.createElement("button");
     // submit.innerHTML = "Submit";
     // submit.type = "submit";
@@ -119,17 +144,25 @@ submitWorkout.addEventListener("click", async (event) => {
     let workoutUnit = document.getElementById("workoutUnit").value;
     let workoutAmount = document.getElementById("workoutAmount").value;
     let workoutDuration = document.getElementById("workoutDuration").value;
+    let pub = document.getElementById("public").value;
+    if(pub == "true"){
+        pub = true;
+    }else{
+        pub = false;
+    }
     workoutType = isValidString(workoutType, "workoutType");
     workoutTitle = isValidString(workoutTitle, "workoutTitle");
     workoutUnit = isValidString(workoutUnit, "workoutUnit");
     workoutAmount = isValidInt(workoutAmount, "workoutAmount");
     workoutDuration = isValidInt(workoutDuration, "workoutDuration");
+    pub = isValidBoolean(pub, "public");
     let workout = {
         title: workoutTitle,
         amountOfWorkout: workoutAmount,
         unitOfWorkout: workoutUnit,
         duration: workoutDuration,
-        type: workoutType
+        type: workoutType,
+        pub: pub
     };
     let response = await fetch("/dashboard/workouts", {
         method: "POST",

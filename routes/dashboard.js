@@ -45,7 +45,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 
 router.post("/workouts", ensureAuthenticated, async (req, res) => {
   try {
-    const { title, amountOfWorkout, unitOfWorkout, duration, type } = req.body;
+    const { title, amountOfWorkout, unitOfWorkout, duration, type, pub } = req.body;
     const creatorEmail = req.session.user.email;
     const newWorkout = await usersData.createWorkout(
       title,
@@ -53,6 +53,7 @@ router.post("/workouts", ensureAuthenticated, async (req, res) => {
       unitOfWorkout,
       duration,
       type,
+      pub,
       creatorEmail
     );
     res.status(200).redirect("/");
