@@ -18,7 +18,10 @@ The seed file is important for initializing the database with mock data for test
 npm run seed
 This command runs a script defined in package.json that executes the seed file. The seed script populates the database with initial data for users, workouts, challenges, and other necessary entities.
 Running the Application
-After seeding the database, you can start the application:
+After seeding the database, you can start the application. Check seed file to log-in as mock user. All mock users have the same password. one mock user is the following
+
+email: alice@example.com
+password: Password123!
 
 npm start
 This command runs the app.js file, starting your Node.js server. Navigate to http://localhost:3000 in your web browser to access the FlexFusion app.
