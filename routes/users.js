@@ -37,9 +37,9 @@ router
     const sanitizedState = xss(state);
     const sanitizedAge = xss(age);
     const sanitizedGender = xss(gender);
-    if(await userData.getUserByEmail(sanitizedEmail) != null){
-      throw new Error("User already exists");
-    }
+    // if(await userData.getUserByEmail(sanitizedEmail) != null){
+    //   throw new Error("User already exists");
+    // }
     try {
       const result = await userData.createUser(
         sanitizedEmail,
@@ -51,7 +51,7 @@ router
         sanitizedAge,
         sanitizedGender
       );
-      if (result.registered){
+      if (result.registered) {
         res.status(200).json({ success: true, redirect: "/login" });
       } else {
         res.status(400).json({
@@ -59,7 +59,6 @@ router
           message: "Failed to register user",
         });
       }
-      
     } catch (error) {
       res.status(400).json({
         success: false,

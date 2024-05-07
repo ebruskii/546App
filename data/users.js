@@ -37,7 +37,7 @@ const exports = {
     //check if user already exists
     const userExists = await userCollection.findOne({ email });
     if (userExists) {
-      throw new Error("User already exists");
+      throw "User already exists";
     }
     const insertResult = await userCollection.insertOne({
       email,
