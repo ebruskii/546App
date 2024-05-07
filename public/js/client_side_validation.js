@@ -1,4 +1,4 @@
-import userData from '../../data/users.js'
+// import userData from '../../data/users.js'
 
 // check string helper
   function isValidPassword(password) {
@@ -81,9 +81,9 @@ registerForm.addEventListener("submit", async (event) => {
         state = isValidString(state, "state");
         age = isValidInt(age, "age");
         gender = isValidString(gender, "gender");
-      if (userData.getUserByEmail(email)){
-          throw new Error("Invalid email or password provided");
-        }
+    //   if (userData.getUserByEmail(email)){
+    //       throw new Error("Invalid email or password provided");
+    //     }
 
       
     }catch(e){
