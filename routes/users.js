@@ -37,7 +37,7 @@ router
     const sanitizedState = xss(state);
     const sanitizedAge = xss(age);
     const sanitizedGender = xss(gender);
-    if(userData.getUserByEmail(sanitizedEmail) != null){
+    if(await userData.getUserByEmail(sanitizedEmail) != null){
       throw new Error("User already exists");
     }
     try {
